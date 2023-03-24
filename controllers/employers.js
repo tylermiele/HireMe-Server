@@ -14,8 +14,17 @@ router.get('/', async (req, res) => {
 
     // this is new mongoose 7.x syntax
     try {
-        const employers = await Employer.find();
+        const employers = await Employer.find().sort('name');
         return res.json(employers).status(200);
+    } catch (err) {
+        return res.json(err).status(400);
+    }
+});
+
+router.post('/', async (req, res) => {
+    try {
+        const employer = await Employer.create(req.body);
+        return res.json(employer).status(201);
     } catch (err) {
         return res.json(err).status(400);
     }
