@@ -9,17 +9,24 @@ const employers = require('./controllers/employers');
 const app = express();
 app.use(bodyParser.json());
 
-if(process.env.NODE_ENV != 'production'){
+if (process.env.NODE_ENV != 'production') {
     require('dotenv').config();
 }
 
 // DB connection
 mongoose.connect(process.env.CONNECTION_STRING, {
-}).then((res) =>{
+}).then((res) => {
     console.log("Connected to Mongo DB");
-}).catch((err) =>{
+}).catch((err) => {
     console.log("Connection failed");
 })
+
+//enable cors before including the controllers which need it
+const cors = require('cors');
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    methods: 'GET,POST,PUT,DELETE,HEAD,OPTIONS'
+}));
 
 app.use('/api/employers', employers);
 
