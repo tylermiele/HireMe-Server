@@ -30,5 +30,21 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.delete('/:_id', async (req, res) => {
+    try {
+        const employer = await Employer.findByIdAndDelete(req.params._id);
+        return res.json(employer).status(204);
+    } catch (err) {
+        return res.json(err).status(400);
+    }
+});
 
+router.put('/:_id', async (req, res) => {
+    try {
+        const employer = await Employer.findByIdAndUpdate(req.params._id, req.body);
+        return res.json(employer).status(202);
+    } catch (err) {
+        return res.json(err).status(400);
+    }
+});
 module.exports = router;
